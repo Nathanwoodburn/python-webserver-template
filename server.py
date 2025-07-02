@@ -74,7 +74,9 @@ def wellknown(path):
 # region Main routes
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # Get current time in the format "dd MMM YYYY hh:mm AM/PM"
+    current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
+    return render_template("index.html", datetime=current_datetime)
 
 
 @app.route("/<path:path>")
@@ -97,6 +99,31 @@ def catch_all(path: str):
             return send_file(filename)
 
     return render_template("404.html"), 404
+
+
+# endregion
+
+
+# region API routes
+
+api_requests = 0
+
+@app.route("/api/v1/data", methods=["GET"])
+def api_data():
+    """
+    Example API endpoint that returns some data.
+    You can modify this to return whatever data you need.
+    """
+
+    global api_requests
+    api_requests += 1
+
+    data = {
+        "header": "Sample API Response",
+        "content": f"Hello, this is a sample API response! You have called this endpoint {api_requests} times.",
+        "timestamp": datetime.now().isoformat(),
+    }
+    return jsonify(data)
 
 
 # endregion
