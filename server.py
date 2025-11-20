@@ -1,9 +1,6 @@
-from functools import cache
-import json
 from flask import (
     Flask,
     make_response,
-    redirect,
     request,
     jsonify,
     render_template,
@@ -11,7 +8,6 @@ from flask import (
     send_file,
 )
 import os
-import json
 import requests
 from datetime import datetime
 import dotenv
@@ -25,6 +21,7 @@ def find(name, path):
     for root, dirs, files in os.walk(path):
         if name in files:
             return os.path.join(root, name)
+
 
 # Assets routes
 @app.route("/assets/<path:path>")
@@ -74,17 +71,13 @@ def wellknown(path):
 # region Main routes
 @app.route("/")
 def index():
-    # Get current time in the format "dd MMM YYYY hh:mm AM/PM"
-    # current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
-    # return render_template("index.html", datetime=current_datetime)
-    
     # Print the IP address of the requester
     print(f"Request from IP: {request.remote_addr}")
     # And the headers
     print(f"Request headers: {request.headers}")
-
-
-    # return redirect("https://ya.c.woodburn.au")
+    # Get current time in the format "dd MMM YYYY hh:mm AM/PM"
+    current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
+    return render_template("index.html", datetime=current_datetime)
 
 
 @app.route("/<path:path>")
@@ -115,6 +108,7 @@ def catch_all(path: str):
 # region API routes
 
 api_requests = 0
+
 
 @app.route("/api/v1/data", methods=["GET"])
 def api_data():
