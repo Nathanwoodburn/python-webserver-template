@@ -2,17 +2,31 @@
 
 Python3 website template including git actions
 
-# Development
-1. Install requirements
+## Requirements
+- UV
+
+## Development
+1. Install project requirements
 ```bash
-python3 -m pip install -r requirements.txt
+uv sync
 ```
 2. Run the dev server
 ```bash
-python3 server.py
+uv run python3 server.py
+```
+3. Alternatively use the virtual environment
+```bash
+source .venv/bin/activate
+```
+You can exit the environment with `deactivate`
+
+For best development setup, you should install the git hook for pre-commit
+```bash
+uv run pre-commit install
 ```
 
-# Production
+
+## Production
 Run using the main.py file
 ```bash
 python3 main.py
