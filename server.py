@@ -75,8 +75,16 @@ def wellknown(path):
 @app.route("/")
 def index():
     # Get current time in the format "dd MMM YYYY hh:mm AM/PM"
-    current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
-    return render_template("index.html", datetime=current_datetime)
+    # current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
+    # return render_template("index.html", datetime=current_datetime)
+    
+    # Print the IP address of the requester
+    print(f"Request from IP: {request.remote_addr}")
+    # And the headers
+    print(f"Request headers: {request.headers}")
+
+
+    # return redirect("https://ya.c.woodburn.au")
 
 
 @app.route("/<path:path>")

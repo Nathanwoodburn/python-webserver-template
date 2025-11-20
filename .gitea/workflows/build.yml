@@ -32,15 +32,10 @@ jobs:
           else
             tag_num="${tag}-${tag_num}"
           fi
-
-          repo=$GITHUB_REPOSITORY
-          repo=${repo#*/}
-          repo=$(echo $repo | tr '[:upper:]' '[:lower:]')
-          echo "container=$repo"
           
 
-          docker build -t $repo:$tag_num .
-          docker tag $repo:$tag_num git.woodburn.au/nathanwoodburn/$repo:$tag_num
-          docker push git.woodburn.au/nathanwoodburn/$repo:$tag_num
-          docker tag $repo:$tag_num git.woodburn.au/nathanwoodburn/$repo:$tag
-          docker push git.woodburn.au/nathanwoodburn/$repo:$tag
+          docker build -t nathanwoodburn:$tag_num .
+          docker tag nathanwoodburn:$tag_num git.woodburn.au/nathanwoodburn/nathanwoodburn:$tag_num
+          docker push git.woodburn.au/nathanwoodburn/nathanwoodburn:$tag_num
+          docker tag nathanwoodburn:$tag_num git.woodburn.au/nathanwoodburn/nathanwoodburn:$tag
+          docker push git.woodburn.au/nathanwoodburn/nathanwoodburn:$tag
