@@ -1,16 +1,17 @@
+import os
+from datetime import UTC, datetime
+
+import dotenv
+import requests
 from flask import (
     Flask,
-    make_response,
-    request,
     jsonify,
+    make_response,
     render_template,
-    send_from_directory,
+    request,
     send_file,
+    send_from_directory,
 )
-import os
-import requests
-from datetime import datetime
-import dotenv
 
 dotenv.load_dotenv()
 
@@ -36,12 +37,7 @@ def send_assets(path):
 
     # Try looking in one of the directories
     filename: str = path.split("/")[-1]
-    if (
-        filename.endswith(".png")
-        or filename.endswith(".jpg")
-        or filename.endswith(".jpeg")
-        or filename.endswith(".svg")
-    ):
+    if filename.endswith((".png", ".jpg", ".jpeg", ".svg")):
         if os.path.isfile("templates/assets/img/" + filename):
             return send_from_directory("templates/assets/img", filename)
         if os.path.isfile("templates/assets/img/favicon/" + filename):
@@ -76,7 +72,7 @@ def index():
     # And the headers
     print(f"Request headers: {request.headers}")
     # Get current time in the format "dd MMM YYYY hh:mm AM/PM"
-    current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
+    current_datetime = datetime.now(UTC).strftime("%d %b %Y %I:%M %p")
     return render_template("index.html", datetime=current_datetime)
 
 
@@ -123,7 +119,7 @@ def api_data():
     data = {
         "header": "Sample API Response",
         "content": f"Hello, this is a sample API response! You have called this endpoint {api_requests} times.",
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
     return jsonify(data)
 
